@@ -2,11 +2,13 @@ import React from "react";
 import axios from "axios";
 import BookList from "./BookList";
 import { bookData, handleBookData } from "../helpers/data";
+import BookFilter from "./BookFilter";
 
 class BookListContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bookLists: [] };
+    this.state = { bookLists: [], filterText: "" };
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +38,10 @@ class BookListContainer extends React.Component {
     }
   }
 
+  handleFilterTextChange(filterText) {
+    this.setState({ filterText });
+  }
+
   render() {
     const books = handleBookData(bookData);
     const bookLists = Object.keys(this.state.bookLists).map(author => {
@@ -47,7 +53,15 @@ class BookListContainer extends React.Component {
         />
       );
     });
-    return <div>{bookLists}</div>;
+    return (
+      <div>
+        <BookFilter
+          handleFilterTextChange={this.handleFilterTextChange}
+          filterText={this.state.filterText}
+        />
+        {bookLists}
+      </div>
+    );
   }
 }
 
