@@ -43,7 +43,6 @@ class BookListContainer extends React.Component {
   }
 
   render() {
-    const books = handleBookData(bookData);
     const bookLists = Object.keys(this.state.bookLists).map(author => {
       return (
         <BookList
