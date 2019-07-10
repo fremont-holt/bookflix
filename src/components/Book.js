@@ -30,6 +30,7 @@ const BookDetails = styled.div`
   flex-direction: column;
   width: 140px;
   height: 210px;
+  overflow-y: scroll;
 
   p {
     font-size: 1em;
@@ -55,6 +56,7 @@ const BookDetails = styled.div`
   & .book-details {
     display: flex;
     justify-content: space-between;
+    font-size: 0.7em;
   }
 `;
 class Book extends React.Component {

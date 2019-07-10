@@ -19,7 +19,9 @@ function handleBookData(books) {
           : "N/A",
       description:
         book.searchInfo.textSnippet !== undefined
-          ? book.searchInfo.textSnippet
+          ? book.searchInfo.textSnippet.length < 300
+            ? book.searchInfo.textSnippet
+            : `${book.searchInfo.textSnippet.slice(0, 300)}...`
           : "",
       pageCount:
         book.volumeInfo.pageCount !== undefined
