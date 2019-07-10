@@ -29,9 +29,9 @@ class BookListContainer extends React.Component {
     this.setState({ searchText });
   }
 
-  handleSearchSubmit(searchText) {
-    console.log(searchText, this, this.authorSearch);
+  handleSearchSubmit() {
     this.authorSearch(this.state.searchText);
+    this.setState({ searchText: "" });
   }
 
   authorSearch(author) {
@@ -58,7 +58,8 @@ class BookListContainer extends React.Component {
   }
 
   render() {
-    const bookLists = Object.keys(this.state.bookLists).map(author => {
+    let authors = Object.keys(this.state.bookLists);
+    const bookLists = authors.reverse().map(author => {
       const books = this.state.bookLists[author].filter(book =>
         `${book.title},${book.author}`
           .toLowerCase()
@@ -67,6 +68,7 @@ class BookListContainer extends React.Component {
       if (books.length > 0) {
         return <BookList books={books} listTitle={author} key={author} />;
       }
+      return null;
     });
     return (
       <div>

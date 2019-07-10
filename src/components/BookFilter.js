@@ -47,7 +47,7 @@ class BookFilter extends React.Component {
               type="text"
               placeholder="Search by author"
               onChange={this.onSearchTextChange}
-              value={this.props.SearchText}
+              value={this.props.searchText}
             />
           </form>
         </label>
