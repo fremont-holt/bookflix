@@ -1,12 +1,30 @@
 function handleBookData(books) {
-  return books.map(book => {
+  const usableBooks = books.filter(
+    book => book && book.volumeInfo && book.searchInfo
+  );
+  return usableBooks.map(book => {
     return {
-      id: book.id,
-      title: book.volumeInfo.title,
-      author: book.volumeInfo.authors[0] || "",
-      publishedDate: book.volumeInfo.publishedDate,
-      description: book.searchInfo.textSnippet,
-      pageCount: book.volumeInfo.pageCount
+      id: book.id !== undefined ? book.id : "",
+      title:
+        book.volumeInfo.title !== undefined ? book.volumeInfo.title : "N/A",
+      author:
+        book.volumeInfo.authors !== undefined
+          ? book.volumeInfo.authors && book.volumeInfo.authors.length > 1
+            ? book.volumeInfo.authors.join(", ")
+            : book.volumeInfo.authors[0]
+          : "N/A",
+      publishedDate:
+        book.volumeInfo.publishedDate !== undefined
+          ? book.volumeInfo.publishedDate
+          : "N/A",
+      description:
+        book.searchInfo.textSnippet !== undefined
+          ? book.searchInfo.textSnippet
+          : "",
+      pageCount:
+        book.volumeInfo.pageCount !== undefined
+          ? book.volumeInfo.pageCount
+          : "N/A"
     };
   });
 }

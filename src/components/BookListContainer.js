@@ -1,40 +1,23 @@
 import React from "react";
 import axios from "axios";
 import BookList from "./BookList";
-import { bookData, handleBookData } from "../helpers/data";
 import BookFilter from "./BookFilter";
+import { bookData, handleBookData } from "../helpers/data";
 
 class BookListContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bookLists: [], filterText: "" };
+    this.state = { bookLists: [], filterText: "", searchText: "" };
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.authorSearch = this.authorSearch.bind(this);
   }
 
   componentDidMount() {
     const sampleAuthors = ["Brandon Sanderson", "Robert Jordan"];
     for (let author of sampleAuthors) {
-      const url = new URL("https://www.googleapis.com/books/v1/volumes");
-      url.searchParams.set("q", author);
-      axios
-        .get(url)
-        .then(res => {
-          const bookData = handleBookData(res.data.items);
-          console.log(url);
-          const bookLists = {
-            ...this.state.bookLists,
-            [author]: bookData
-          };
-          this.setState({ bookLists });
-        })
-        .catch(function(error) {
-          console.log(error);
-          const bookLists = {
-            ...this.state.bookLists,
-            "Brandon Sanderson": handleBookData(bookData)
-          };
-          this.setState({ bookLists });
-        });
+      this.authorSearch(author);
     }
   }
 
@@ -42,26 +25,61 @@ class BookListContainer extends React.Component {
     this.setState({ filterText });
   }
 
+  handleSearchTextChange(searchText) {
+    this.setState({ searchText });
+  }
+
+  handleSearchSubmit(searchText) {
+    console.log(searchText, this, this.authorSearch);
+    this.authorSearch(this.state.searchText);
+  }
+
+  authorSearch(author) {
+    const url = new URL("https://www.googleapis.com/books/v1/volumes");
+    url.searchParams.set("q", author);
+    axios
+      .get(url)
+      .then(res => {
+        const bookData = handleBookData(res.data.items);
+        const bookLists = {
+          ...this.state.bookLists,
+          [author]: bookData
+        };
+        this.setState({ bookLists });
+      })
+      .catch(function(error) {
+        console.log(error);
+        const bookLists = {
+          ...this.state.bookLists,
+          "Brandon Sanderson": handleBookData(bookData)
+        };
+        this.setState({ bookLists });
+      });
+  }
+
   render() {
     const bookLists = Object.keys(this.state.bookLists).map(author => {
-      return (
-        <BookList
-          books={this.state.bookLists[author]}
-          listTitle={author}
-          key={author}
-        />
+      const books = this.state.bookLists[author].filter(book =>
+        `${book.title},${book.author}`
+          .toLowerCase()
+          .includes(this.state.filterText.toLowerCase())
       );
+      if (books.length > 0) {
+        return <BookList books={books} listTitle={author} key={author} />;
+      }
     });
     return (
       <div>
         <BookFilter
           handleFilterTextChange={this.handleFilterTextChange}
+          handleSearchTextChange={this.handleSearchTextChange}
+          handleSearchSubmit={this.handleSearchSubmit}
           filterText={this.state.filterText}
+          searchText={this.state.searchText}
         />
         {bookLists}
       </div>
     );
   }
 }
-
 export default BookListContainer;

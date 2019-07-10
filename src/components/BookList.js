@@ -35,6 +35,7 @@ const BookListScroller = styled.div`
   grid-template-columns: 10px;
   grid-template-rows: minmax(150px, 1fr);
   grid-auto-flow: column;
+  grid-auto-columns: max-content;
 
   overflow-x: scroll;
   scroll-snap-type: x proximity;
@@ -144,7 +145,8 @@ class BookList extends React.Component {
     this.scroller.current.scrollLeft = newPosition;
   }
 
-  render() {    const books = this.props.books.map(book => (
+  render() {
+    const books = this.props.books.map(book => (
       <BookListScrollItem book={book} key={book.id} />
     ));
 
