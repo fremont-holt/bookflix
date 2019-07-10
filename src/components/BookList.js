@@ -5,7 +5,7 @@ import styled from "styled-components";
 const gutter = 20;
 
 const BookListContainer = styled.div`
-  padding: ${gutter}px 0;
+  padding: ${gutter / 2}px 0;
   display: grid;
   grid-gap: ${gutter}px 0;
   grid-template-columns: ${gutter}px 1fr ${gutter}px;
@@ -111,6 +111,10 @@ const ScrollButton = styled.div`
   }
 `;
 
+const ListTile = styled.h3`
+  margin: 10px 0;
+`;
+
 class BookList extends React.Component {
   constructor(props) {
     super(props);
@@ -152,7 +156,7 @@ class BookList extends React.Component {
 
     return (
       <BookListContainer>
-        <h3>{this.props.listTitle}</h3>
+        <ListTile>{this.props.listTitle}</ListTile>
         <div className="scroller full">
           <ScrollButton className="left" onClick={this.scrollLeft}>
             <i className="arrow" />

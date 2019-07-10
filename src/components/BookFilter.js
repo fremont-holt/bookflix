@@ -7,8 +7,18 @@ const SearchBox = styled.input`
   border-radius: 5%;
   color: #fff;
   height: 20px;
-  width: 150px;
+  width: 50%;
   margin: 10px;
+  @media (min-width: 800px) {
+    height: 30px;
+    width: 260px;
+    margin: 10px;
+    font-size: 2em;
+  }
+`;
+
+const InputGroupWrapper = styled.div`
+  display: flex;
 `;
 
 class BookFilter extends React.Component {
@@ -34,24 +44,22 @@ class BookFilter extends React.Component {
 
   render() {
     return (
-      <div>
-        <label>
+      <InputGroupWrapper>
+        <SearchBox
+          type="text"
+          placeholder="Filter by title or author"
+          onChange={this.onFilterTextChange}
+          value={this.props.filterText}
+        />
+        <form onSubmit={this.onSearchSubmit}>
           <SearchBox
             type="text"
-            placeholder="Filter by title or author"
-            onChange={this.onFilterTextChange}
-            value={this.props.filterText}
+            placeholder="Search by author"
+            onChange={this.onSearchTextChange}
+            value={this.props.searchText}
           />
-          <form onSubmit={this.onSearchSubmit}>
-            <SearchBox
-              type="text"
-              placeholder="Search by author"
-              onChange={this.onSearchTextChange}
-              value={this.props.searchText}
-            />
-          </form>
-        </label>
-      </div>
+        </form>
+      </InputGroupWrapper>
     );
   }
 }
