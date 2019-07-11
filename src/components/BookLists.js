@@ -4,7 +4,7 @@ import BookList from "./BookList";
 import BookFilter from "./BookFilter";
 import { bookData, handleBookData } from "../helpers/data";
 
-class BookListContainer extends React.Component {
+class BookLists extends React.Component {
   constructor(props) {
     super(props);
     this.state = { bookLists: [], filterText: "", searchText: "" };
@@ -84,4 +84,4 @@ class BookListContainer extends React.Component {
     );
   }
 }
-export default BookListContainer;
+export default BookLists;

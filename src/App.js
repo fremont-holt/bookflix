@@ -1,10 +1,10 @@
 import React from "react";
-import BookListContainer from "./components/BookListContainer";
+import BookLists from "./components/BookLists";
 
 function App() {
   return (
     <div>
-      <BookListContainer />
+      <BookLists />
     </div>
   );
 }

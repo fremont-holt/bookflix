@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const gutter = 20;
 
-const BookListContainer = styled.div`
+const BookLists = styled.div`
   padding: ${gutter / 2}px 0;
   display: grid;
   grid-gap: ${gutter}px 0;
@@ -155,7 +155,7 @@ class BookList extends React.Component {
     ));
 
     return (
-      <BookListContainer>
+      <BookLists>
         <ListTile>{this.props.listTitle}</ListTile>
         <div className="scroller full">
           <ScrollButton className="left" onClick={this.scrollLeft}>
@@ -168,7 +168,7 @@ class BookList extends React.Component {
             <i className="arrow" />
           </ScrollButton>
         </div>
-      </BookListContainer>
+      </BookLists>
     );
   }
 }
