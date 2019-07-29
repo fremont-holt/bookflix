@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const gutter = 20;
 
-const BookLists = styled.div`
+const BookListContainer = styled.div`
   padding: ${gutter / 2}px 0;
   display: grid;
   grid-gap: ${gutter}px 0;
@@ -114,63 +114,51 @@ const ScrollButton = styled.div`
 const ListTile = styled.h3`
   margin: 10px 0;
 `;
+function BookList(props) {
+  const scroller = React.createRef();
+  const scrollLeft = () => {
+    const newPosition = changeScrollPosition(-300);
+    setScroll(newPosition);
+  };
 
-class BookList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.setScroll = this.setScroll.bind(this);
-    this.changeScrollPosition = this.changeScrollPosition.bind(this);
-    this.scrollLeft = this.scrollLeft.bind(this);
-    this.scrollRight = this.scrollRight.bind(this);
-    this.scroller = React.createRef();
-  }
+  const scrollRight = () => {
+    const newPosition = changeScrollPosition(300);
+    setScroll(newPosition);
+  };
 
-  scrollLeft() {
-    const newPosition = this.changeScrollPosition(-300);
-    this.setScroll(newPosition);
-  }
-
-  scrollRight() {
-    const newPosition = this.changeScrollPosition(300);
-    this.setScroll(newPosition);
-  }
-
-  changeScrollPosition(scrollChange) {
-    let newPosition = this.scroller.current.scrollLeft + scrollChange;
+  const changeScrollPosition = scrollChange => {
+    let newPosition = scroller.current.scrollLeft + scrollChange;
     if (newPosition <= 0) {
       newPosition = 1;
-    } else if (newPosition > this.scroller.current.scrollWidth) {
-      newPosition = this.scroller.current.scrollWidth;
+    } else if (newPosition > scroller.current.scrollWidth) {
+      newPosition = scroller.current.scrollWidth;
     }
     return newPosition;
-  }
+  };
 
-  setScroll(newPosition) {
-    this.scroller.current.scrollLeft = newPosition;
-  }
+  const setScroll = newPosition => {
+    scroller.current.scrollLeft = newPosition;
+  };
+  const books = props.books.map(book => (
+    <BookListScrollItem book={book} key={book.id} />
+  ));
 
-  render() {
-    const books = this.props.books.map(book => (
-      <BookListScrollItem book={book} key={book.id} />
-    ));
-
-    return (
-      <BookLists>
-        <ListTile>{this.props.listTitle}</ListTile>
-        <div className="scroller full">
-          <ScrollButton className="left" onClick={this.scrollLeft}>
-            <i className="arrow" />
-          </ScrollButton>
-          <BookListScroller className="full" ref={this.scroller}>
-            {books}
-          </BookListScroller>
-          <ScrollButton className="right" onClick={this.scrollRight}>
-            <i className="arrow" />
-          </ScrollButton>
-        </div>
-      </BookLists>
-    );
-  }
+  return (
+    <BookListContainer>
+      <ListTile>{props.listTitle}</ListTile>
+      <div className="scroller full">
+        <ScrollButton className="left" onClick={scrollLeft}>
+          <i className="arrow" />
+        </ScrollButton>
+        <BookListScroller className="full" ref={scroller}>
+          {books}
+        </BookListScroller>
+        <ScrollButton className="right" onClick={scrollRight}>
+          <i className="arrow" />
+        </ScrollButton>
+      </div>
+    </BookListContainer>
+  );
 }
 
 export default BookList;
