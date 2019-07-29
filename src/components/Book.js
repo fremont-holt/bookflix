@@ -59,26 +59,25 @@ const BookDetails = styled.div`
     font-size: 0.7em;
   }
 `;
-class Book extends React.Component {
-  render() {
-    const book = this.props.book;
-    const bookCover = `https://books.google.com/books/content?id=${
-      book.id
-    }&printsec=frontcover&img=1&zoom=3&edge=curl&source=gbs_api.jpg`;
-    return (
-      <Container>
-        <BookCover src={bookCover} alt={`Book Cover for ${book.title}`} />
-        <BookDetails className="details">
-          <h2>{book.title}</h2>
-          <p>{book.description}</p>
-          <div className="book-details">
-            <span>Pages: {book.pageCount}</span>
-            <span>Publish Date: {book.publishedDate}</span>
-          </div>
-        </BookDetails>
-      </Container>
-    );
-  }
+
+function Book(props) {
+  const book = props.book;
+  const bookCover = `https://books.google.com/books/content?id=${
+    book.id
+  }&printsec=frontcover&img=1&zoom=3&edge=curl&source=gbs_api.jpg`;
+  return (
+    <Container>
+      <BookCover src={bookCover} alt={`Book Cover for ${book.title}`} />
+      <BookDetails className="details">
+        <h2>{book.title}</h2>
+        <p>{book.description}</p>
+        <div className="book-details">
+          <span>Pages: {book.pageCount}</span>
+          <span>Publish Date: {book.publishedDate}</span>
+        </div>
+      </BookDetails>
+    </Container>
+  );
 }
 
 export default Book;

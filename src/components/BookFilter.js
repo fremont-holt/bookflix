@@ -21,47 +21,37 @@ const InputGroupWrapper = styled.div`
   display: flex;
 `;
 
-class BookFilter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onFilterTextChange = this.onFilterTextChange.bind(this);
-    this.onSearchTextChange = this.onSearchTextChange.bind(this);
-    this.onSearchSubmit = this.onSearchSubmit.bind(this);
-  }
+function BookFilter(props) {
+  const onFilterTextChange = e => {
+    props.handleFilterTextChange(e.target.value);
+  };
 
-  onFilterTextChange(e) {
-    this.props.handleFilterTextChange(e.target.value);
-  }
+  const onSearchTextChange = e => {
+    props.handleSearchTextChange(e.target.value);
+  };
 
-  onSearchTextChange(e) {
-    this.props.handleSearchTextChange(e.target.value);
-  }
-
-  onSearchSubmit(e) {
+  const onSearchSubmit = e => {
     e.preventDefault();
-    this.props.handleSearchSubmit();
-  }
-
-  render() {
-    return (
-      <InputGroupWrapper>
+    props.handleSearchSubmit();
+  };
+  return (
+    <InputGroupWrapper>
+      <SearchBox
+        type="text"
+        placeholder="Filter by title or author"
+        onChange={onFilterTextChange}
+        value={props.filterText}
+      />
+      <form onSubmit={onSearchSubmit}>
         <SearchBox
           type="text"
-          placeholder="Filter by title or author"
-          onChange={this.onFilterTextChange}
-          value={this.props.filterText}
+          placeholder="Search by author"
+          onChange={onSearchTextChange}
+          value={props.searchText}
         />
-        <form onSubmit={this.onSearchSubmit}>
-          <SearchBox
-            type="text"
-            placeholder="Search by author"
-            onChange={this.onSearchTextChange}
-            value={this.props.searchText}
-          />
-        </form>
-      </InputGroupWrapper>
-    );
-  }
+      </form>
+    </InputGroupWrapper>
+  );
 }
 
 export default BookFilter;
